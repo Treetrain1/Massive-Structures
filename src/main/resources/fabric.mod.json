@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "id": "hugestructureblocks",
+  "id": "massive_structures",
   "version": "${version}",
 
-  "name": "Huge Structure Blocks",
-  "description": "Structure blocks. But bigger.",
+  "name": "Massive Structures",
+  "description": "Extends the reach of structures to 4096 blocks.",
   "authors": [
     "SamB440"
   ],
@@ -15,24 +15,24 @@
   },
   "license": "LGPL-3.0",
 
-  "icon": "assets/hugestructureblocks/icon.png",
+  "icon": "assets/massive_structures/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.convallyria.hugestructureblocks.HugeStructureBlocksMod"
+      "com.treetrain1.MassiveStructures"
     ]
   },
-  "accessWidener" : "hugestructureblocks.accesswidener",
+  "accessWidener" : "massive_structures.accesswidener",
   "mixins": [
-    "hugestructureblocks.mixins.json"
+    "massive_structures.mixins.json"
   ],
   "conflicts": {
     "tale-of-kingdoms": "*"
   },
 
   "depends": {
-    "fabricloader": ">=0.14.21",
-    "minecraft": "~1.20.3"
+    "fabricloader": ">=0.15.6",
+    "minecraft": ">=1.20.4"
   }
 }

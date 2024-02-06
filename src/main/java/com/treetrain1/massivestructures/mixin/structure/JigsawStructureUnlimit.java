@@ -1,6 +1,6 @@
-package com.convallyria.hugestructureblocks.mixin.structure;
+package com.treetrain1.massivestructures.mixin.structure;
 
-import com.convallyria.hugestructureblocks.HugeStructureBlocksMod;
+import com.treetrain1.massivestructures.MassiveStructures;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.structure.pool.StructurePool;
@@ -55,16 +55,16 @@ public class JigsawStructureUnlimit {
 
     @ModifyConstant(method = "<init>(Lnet/minecraft/world/gen/structure/Structure$Config;Lnet/minecraft/registry/entry/RegistryEntry;ILnet/minecraft/world/gen/heightprovider/HeightProvider;Z)V", constant = @Constant(intValue = 80), require = 0)
     private static int init1(int value) {
-        return HugeStructureBlocksMod.NEW_STRUCTURE_SIZE;
+        return MassiveStructures.NEW_STRUCTURE_SIZE;
     }
 
     @ModifyConstant(method = "<init>(Lnet/minecraft/world/gen/structure/Structure$Config;Lnet/minecraft/registry/entry/RegistryEntry;ILnet/minecraft/world/gen/heightprovider/HeightProvider;ZLnet/minecraft/world/Heightmap$Type;)V", constant = @Constant(intValue = 80), require = 0)
     private static int init2(int value) {
-        return HugeStructureBlocksMod.NEW_STRUCTURE_SIZE;
+        return MassiveStructures.NEW_STRUCTURE_SIZE;
     }
 
     @ModifyConstant(method = "validate", constant = @Constant(intValue = 128), require = 0)
     private static int maxDistanceFromCenter(int value) {
-        return HugeStructureBlocksMod.NEW_STRUCTURE_SIZE;
+        return MassiveStructures.NEW_STRUCTURE_SIZE;
     }
 }

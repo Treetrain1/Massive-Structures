@@ -1,4 +1,4 @@
-package com.convallyria.hugestructureblocks.mixin.structure;
+package com.treetrain1.massivestructures.mixin.structure;
 
 import net.minecraft.server.command.PlaceCommand;
 import org.spongepowered.asm.mixin.Mixin;

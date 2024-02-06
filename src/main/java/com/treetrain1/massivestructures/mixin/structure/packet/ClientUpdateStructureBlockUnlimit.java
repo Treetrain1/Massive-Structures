@@ -1,6 +1,6 @@
-package com.convallyria.hugestructureblocks.mixin.structure.packet;
+package com.treetrain1.massivestructures.mixin.structure.packet;
 
-import com.convallyria.hugestructureblocks.HugeStructureBlocksMod;
+import com.treetrain1.massivestructures.MassiveStructures;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.c2s.play.UpdateStructureBlockC2SPacket;
 import net.minecraft.util.math.BlockPos;
@@ -32,7 +32,7 @@ public class ClientUpdateStructureBlockUnlimit {
 
     @Inject(method = "<init>(Lnet/minecraft/network/PacketByteBuf;)V", at = @At("RETURN"), require = 0)
     public void readInts(PacketByteBuf buf, CallbackInfo ci) {
-        final int newStructureSize = HugeStructureBlocksMod.NEW_STRUCTURE_SIZE;
+        final int newStructureSize = MassiveStructures.NEW_STRUCTURE_SIZE;
         this.offset = new BlockPos(
                 MathHelper.clamp(buf.readInt(), -newStructureSize, newStructureSize),
                 MathHelper.clamp(buf.readInt(), -newStructureSize, newStructureSize),

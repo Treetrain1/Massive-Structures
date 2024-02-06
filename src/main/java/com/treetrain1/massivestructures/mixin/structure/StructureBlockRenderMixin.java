@@ -1,6 +1,6 @@
-package com.convallyria.hugestructureblocks.mixin.structure;
+package com.treetrain1.massivestructures.mixin.structure;
 
-import com.convallyria.hugestructureblocks.HugeStructureBlocksMod;
+import com.treetrain1.massivestructures.MassiveStructures;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.block.entity.StructureBlockBlockEntityRenderer;
@@ -12,12 +12,12 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 public class StructureBlockRenderMixin {
 
     /**
-     * @reason Increase the distance that the bounding box can be seen up to 256 blocks
+     * @reason Increase the distance that the bounding box can be seen up to 2048 blocks
      * @author SamB440/Cotander
      */
     @ModifyConstant(method = "getRenderDistance", constant = @Constant(intValue = 96), require = 0)
     @Environment(EnvType.CLIENT)
     public int getRenderDistance(int value) {
-        return HugeStructureBlocksMod.NEW_STRUCTURE_SIZE / 2;
+        return MassiveStructures.NEW_STRUCTURE_SIZE / 2;
     }
 }

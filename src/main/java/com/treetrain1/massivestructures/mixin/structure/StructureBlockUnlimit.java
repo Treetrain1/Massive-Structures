@@ -1,6 +1,6 @@
-package com.convallyria.hugestructureblocks.mixin.structure;
+package com.treetrain1.massivestructures.mixin.structure;
 
-import com.convallyria.hugestructureblocks.HugeStructureBlocksMod;
+import com.treetrain1.massivestructures.MassiveStructures;
 import net.minecraft.block.entity.StructureBlockBlockEntity;
 import net.minecraft.block.enums.StructureBlockMode;
 import net.minecraft.util.math.BlockPos;
@@ -20,12 +20,12 @@ public class StructureBlockUnlimit {
 
     @ModifyConstant(method = "readNbt", constant = @Constant(intValue = 48), require = 0)
     public int readNbtUpper(int value) {
-        return HugeStructureBlocksMod.NEW_STRUCTURE_SIZE;
+        return MassiveStructures.NEW_STRUCTURE_SIZE;
     }
 
     @ModifyConstant(method = "readNbt", constant = @Constant(intValue = -48), require = 0)
     public int readNbtLower(int value) {
-        return -HugeStructureBlocksMod.NEW_STRUCTURE_SIZE;
+        return -MassiveStructures.NEW_STRUCTURE_SIZE;
     }
 
     /**
@@ -53,6 +53,6 @@ public class StructureBlockUnlimit {
 
     @ModifyConstant(method = "detectStructureSize", constant = @Constant(intValue = 80), require = 0)
     public int detectSize(int value) {
-        return HugeStructureBlocksMod.NEW_STRUCTURE_SIZE;
+        return MassiveStructures.NEW_STRUCTURE_SIZE;
     }
 }
