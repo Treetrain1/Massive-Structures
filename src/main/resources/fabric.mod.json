@@ -20,7 +20,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.treetrain1.MassiveStructures"
+      "com.treetrain1.massivestructures.MassiveStructures"
     ]
   },
   "accessWidener" : "massive_structures.accesswidener",
@@ -28,6 +28,7 @@
     "massive_structures.mixins.json"
   ],
   "conflicts": {
+    "hugestructureblocks": "*",
     "tale-of-kingdoms": "*"
   },
 

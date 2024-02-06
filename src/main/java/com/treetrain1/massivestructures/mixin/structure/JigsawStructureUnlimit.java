@@ -3,13 +3,14 @@ package com.treetrain1.massivestructures.mixin.structure;
 import com.treetrain1.massivestructures.MassiveStructures;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.structure.pool.StructurePool;
-import net.minecraft.structure.pool.alias.StructurePoolAliasBinding;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.dynamic.Codecs;
-import net.minecraft.world.Heightmap;
-import net.minecraft.world.gen.heightprovider.HeightProvider;
-import net.minecraft.world.gen.structure.JigsawStructure;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ExtraCodecs;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasBinding;
+import net.minecraft.world.level.levelgen.structure.structures.JigsawStructure;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -19,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 import java.util.List;
 
-import static net.minecraft.world.gen.structure.Structure.configCodecBuilder;
+import static net.minecraft.world.level.levelgen.structure.Structure.settingsCodec;
 
 @Mixin(value = JigsawStructure.class, priority = 999)
 public class JigsawStructureUnlimit {
@@ -28,36 +29,36 @@ public class JigsawStructureUnlimit {
     @Shadow
     @Final
     @Mutable
-    public static final Codec<JigsawStructure> CODEC = Codecs.validate(
+    public static final Codec<JigsawStructure> CODEC = ExtraCodecs.validate(
         RecordCodecBuilder.mapCodec(
             instance -> instance.group(
-                    configCodecBuilder(instance),
-                    StructurePool.REGISTRY_CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
-                    Identifier.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(structure -> structure.startJigsawName),
-                    Codec.INT.fieldOf("size").forGetter(structure -> structure.size),
+                    settingsCodec(instance),
+                    StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
+                    ResourceLocation.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(structure -> structure.startJigsawName),
+                    Codec.INT.fieldOf("size").forGetter(structure -> structure.maxDepth),
                     HeightProvider.CODEC.fieldOf("start_height").forGetter(structure -> structure.startHeight),
                     Codec.BOOL.fieldOf("use_expansion_hack").forGetter(structure -> structure.useExpansionHack),
-                    Heightmap.Type.CODEC.optionalFieldOf("project_start_to_heightmap").forGetter(structure -> structure.projectStartToHeightmap),
+                    Heightmap.Types.CODEC.optionalFieldOf("project_start_to_heightmap").forGetter(structure -> structure.projectStartToHeightmap),
                     Codec.INT.fieldOf("max_distance_from_center").forGetter(structure -> structure.maxDistanceFromCenter),
-                    Codec.list(StructurePoolAliasBinding.CODEC).optionalFieldOf("pool_aliases", List.of()).forGetter(JigsawStructure::getPoolAliasBindings)
+                    Codec.list(PoolAliasBinding.CODEC).optionalFieldOf("pool_aliases", List.of()).forGetter(JigsawStructure::getPoolAliases)
             )
             .apply(instance, JigsawStructure::new)
         ),
-        JigsawStructure::validate
+        JigsawStructure::verifyRange
     )
     .codec();
 
-    @ModifyConstant(method = "<init>(Lnet/minecraft/world/gen/structure/Structure$Config;Lnet/minecraft/registry/entry/RegistryEntry;ILnet/minecraft/world/gen/heightprovider/HeightProvider;Z)V", constant = @Constant(intValue = 80), require = 0)
+    @ModifyConstant(method = "<init>(Lnet/minecraft/world/level/levelgen/structure/Structure$StructureSettings;Lnet/minecraft/core/Holder;ILnet/minecraft/world/level/levelgen/heightproviders/HeightProvider;Z)V", constant = @Constant(intValue = 80), require = 0)
     private static int init1(int value) {
         return MassiveStructures.NEW_STRUCTURE_SIZE;
     }
 
-    @ModifyConstant(method = "<init>(Lnet/minecraft/world/gen/structure/Structure$Config;Lnet/minecraft/registry/entry/RegistryEntry;ILnet/minecraft/world/gen/heightprovider/HeightProvider;ZLnet/minecraft/world/Heightmap$Type;)V", constant = @Constant(intValue = 80), require = 0)
+    @ModifyConstant(method = "<init>(Lnet/minecraft/world/level/levelgen/structure/Structure$StructureSettings;Lnet/minecraft/core/Holder;ILnet/minecraft/world/level/levelgen/heightproviders/HeightProvider;ZLnet/minecraft/world/level/levelgen/Heightmap$Types;)V", constant = @Constant(intValue = 80), require = 0)
     private static int init2(int value) {
         return MassiveStructures.NEW_STRUCTURE_SIZE;
     }
 
-    @ModifyConstant(method = "validate", constant = @Constant(intValue = 128), require = 0)
+    @ModifyConstant(method = "verifyRange", constant = @Constant(intValue = 128), require = 0)
     private static int maxDistanceFromCenter(int value) {
         return MassiveStructures.NEW_STRUCTURE_SIZE;
     }
