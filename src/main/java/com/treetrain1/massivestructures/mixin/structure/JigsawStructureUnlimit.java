@@ -24,12 +24,6 @@ import static net.minecraft.world.gen.structure.Structure.configCodecBuilder;
 @Mixin(value = JigsawStructure.class, priority = 999)
 public class JigsawStructureUnlimit {
 
-    @Shadow
-    @Final
-    @Mutable
-    // Is this even used?
-    public static final int MAX_SIZE = Integer.MAX_VALUE;
-
     // I tried so many ways to do this without replacing the codec but nothing worked.
     @Shadow
     @Final
