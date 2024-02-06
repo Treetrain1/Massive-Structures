@@ -6,12 +6,12 @@
   "name": "Massive Structures",
   "description": "Extends the reach of structures to 4096 blocks.",
   "authors": [
+    "Treetrain1",
     "SamB440"
   ],
   "contact": {
-    "homepage": "https://www.convallyria.com",
-    "sources": "https://github.com/SamB440/huge-structure-blocks",
-    "issues": "https://github.com/SamB440/huge-structure-blocks/issues"
+    "sources": "https://github.com/Treetrain1/Massive-Structures",
+    "issues": "https://github.com/Treetrain1/Massive-Structures/issues"
   },
   "license": "LGPL-3.0",
 
