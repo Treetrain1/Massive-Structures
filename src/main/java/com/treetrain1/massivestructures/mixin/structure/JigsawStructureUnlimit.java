@@ -1,52 +1,22 @@
 package com.treetrain1.massivestructures.mixin.structure;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.treetrain1.massivestructures.MassiveStructures;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.ExtraCodecs;
-import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
-import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
-import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasBinding;
 import net.minecraft.world.level.levelgen.structure.structures.JigsawStructure;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
-
-import java.util.List;
-
-import static net.minecraft.world.level.levelgen.structure.Structure.settingsCodec;
 
 @Mixin(value = JigsawStructure.class, priority = 999)
 public class JigsawStructureUnlimit {
 
-    // I tried so many ways to do this without replacing the codec but nothing worked.
-    @Shadow
-    @Final
-    @Mutable
-    public static final Codec<JigsawStructure> CODEC = ExtraCodecs.validate(
-        RecordCodecBuilder.mapCodec(
-            instance -> instance.group(
-                    settingsCodec(instance),
-                    StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
-                    ResourceLocation.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(structure -> structure.startJigsawName),
-                    Codec.INT.fieldOf("size").forGetter(structure -> structure.maxDepth),
-                    HeightProvider.CODEC.fieldOf("start_height").forGetter(structure -> structure.startHeight),
-                    Codec.BOOL.fieldOf("use_expansion_hack").forGetter(structure -> structure.useExpansionHack),
-                    Heightmap.Types.CODEC.optionalFieldOf("project_start_to_heightmap").forGetter(structure -> structure.projectStartToHeightmap),
-                    Codec.INT.fieldOf("max_distance_from_center").forGetter(structure -> structure.maxDistanceFromCenter),
-                    Codec.list(PoolAliasBinding.CODEC).optionalFieldOf("pool_aliases", List.of()).forGetter(JigsawStructure::getPoolAliases)
-            )
-            .apply(instance, JigsawStructure::new)
-        ),
-        JigsawStructure::verifyRange
-    )
-    .codec();
+    @WrapOperation(method = "method_41662", at = @At(value = "INVOKE", target = "Lcom/mojang/serialization/Codec;intRange(II)Lcom/mojang/serialization/Codec;"))
+    private static Codec<Integer> replaceIntRange(int minInclusive, int maxInclusive, Operation<Codec<Integer>> original) {
+        return Codec.INT;
+    }
 
     @ModifyConstant(method = "<init>(Lnet/minecraft/world/level/levelgen/structure/Structure$StructureSettings;Lnet/minecraft/core/Holder;ILnet/minecraft/world/level/levelgen/heightproviders/HeightProvider;Z)V", constant = @Constant(intValue = 80), require = 0)
     private static int init1(int value) {
@@ -61,5 +31,10 @@ public class JigsawStructureUnlimit {
     @ModifyConstant(method = "verifyRange", constant = @Constant(intValue = 128), require = 0)
     private static int maxDistanceFromCenter(int value) {
         return MassiveStructures.NEW_STRUCTURE_SIZE;
+    }
+
+    @ModifyConstant(method = "method_49541", constant = @Constant(stringValue = "Structure size including terrain adaptation must not exceed 128"), require = 0)
+    private static String maxDistanceFromCenter(String value) {
+        return "Structure size including terrain adaptation must not exceed 4096";
     }
 }
